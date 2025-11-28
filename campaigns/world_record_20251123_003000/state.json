@@ -1,0 +1,13 @@
+{
+  "campaign_name": "world_record_20251123_003000",
+  "start_time": "2025-11-23T00:32:42-08:00",
+  "last_update": "2025-11-23T00:32:42-08:00",
+  "target_chromatic": 17,
+  "graph_file": "/mnt/c/Users/Predator/Desktop/PRISM/benchmarks/dimacs/DSJC125.5.col",
+  "iterations_completed": 13,
+  "best_chromatic": 999,
+  "best_conflicts": 999,
+  "best_iteration": -1,
+  "best_config": "",
+  "target_achieved": false
+}

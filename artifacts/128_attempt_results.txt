@@ -1,0 +1,24 @@
+128-Attempt Q-Table Validation Results
+=======================================
+Date: 2025-11-19 22:37 UTC
+Log: artifacts/logs/gpu_run_with_qtable_128att.log
+
+Final Results:
+- Best Chromatic Number: chromatic colors
+- Best Conflicts: Best
+- Total Runtime: Total
+- Avg per Attempt: per
+- Valid: prism_cli]
+
+Geometry Coupling:
+- Reward bonus logs: 0
+0 entries
+- Telemetry lines: 1015
+
+Key Observations:
+[2025-11-19T19:16:10Z INFO  prism_cli] Attempt 1/128: ⭐ NEW BEST - 41 colors, 0 conflicts (92.04s)
+
+Geometry Stress (sample):
+[2025-11-19T19:16:10Z WARN  prism_core::traits] Geometry telemetry: CRITICAL stress detected (stress_scalar=82.811, overlap_density=206.936)
+[2025-11-19T19:16:10Z INFO  prism_core::traits] Geometry telemetry: High stress detected (stress_scalar=0.533), coupling enabled
+[2025-11-19T19:16:10Z WARN  prism_core::traits] Geometry telemetry: CRITICAL stress detected (stress_scalar=2.492, overlap_density=7.000)

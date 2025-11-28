@@ -1,0 +1,55 @@
+PRISM Deep Coupling Baseline Results (No Q-table)
+================================================
+
+Test: DSJC250.5 (250 vertices, 15668 edges, density=0.503)
+Config: configs/dsjc250_deep_coupling.toml
+Branch: fluxnet-v2-feature
+Date: 2025-11-19
+GPU: RTX 3060 (CUDA 12.6, compute 8.6)
+
+Configuration
+-------------
+- Metaphysical Coupling: ENABLED
+  - Early-phase geometry seeding: TRUE
+  - Reward shaping: TRUE (scale=2.0)
+  - Stress thresholds: hot=0.5, critical=0.8
+- Warmstart: ENABLED (26 anchors from attempt 2+)
+- Phase 2 Iterations: 10000 (8 replicas)
+- FluxNet RL: Random initialization (no pretrained Q-table)
+- Memetic Algorithm: NOT enabled
+
+Results
+-------
+Attempts: 16
+Best Chromatic Number: 41 colors
+Conflicts: 0 (valid coloring)
+Total Runtime: 752.144 seconds (12.5 minutes)
+Average per Attempt: 47.009 seconds
+
+GPU Verification
+----------------
+✅ All 5 PTX modules loaded successfully
+✅ Phase 2 GPU timing: ~93s (first), ~23s (warmed)
+✅ Phase 4 GPU APSP: ~132ms
+✅ Phase 0 Dendritic: ~13-18ms
+
+Geometry Coupling Evidence
+--------------------------
+- Attempt 1: stress=0.032, temp_max=10.16
+- Attempts 2-16: stress=0.533, temp_max=12.67 (+24.7% increase)
+- Temperature adaptation active across all attempts
+- Consistent geometry propagation from Phase 4/6
+
+Key Observations
+---------------
+1. GPU warmup effect: 4x speedup after first attempt (93s → 23s)
+2. Stable convergence: All 16 attempts → 41 colors
+3. Geometry coupling functional: Temperature scaling responsive
+4. Reward shaping implemented but not logged (stress deltas were zero after attempt 1)
+5. No telemetry JSONL exported (may need additional implementation)
+
+Next Steps
+----------
+- Retrain FluxNet Q-table with geometry coupling (1000 epochs)
+- Re-run with new Q-table (16 & 128 attempts, memetic enabled)
+- Compare chromatic results vs baseline (expect improvement from learned policies)

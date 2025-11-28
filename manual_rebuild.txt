@@ -1,0 +1,42 @@
+# MANUAL REBUILD COMMANDS FOR WSL2
+# Copy and paste each line one at a time
+
+# 1. SET ENVIRONMENT
+export PATH="/home/diddy/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin:/usr/bin:$PATH"
+export CUDA_HOME=/usr/local/cuda-12.6
+
+# 2. CLEAN
+cargo clean
+rm -rf target/ptx
+mkdir -p target/ptx
+
+# 3. COMPILE EACH PTX KERNEL (copy one line at a time)
+$CUDA_HOME/bin/nvcc -ptx --gpu-architecture=sm_86 -o target/ptx/active_inference.ptx prism-gpu/src/kernels/active_inference.cu
+
+$CUDA_HOME/bin/nvcc -ptx --gpu-architecture=sm_86 -o target/ptx/cma_es.ptx prism-gpu/src/kernels/cma_es.cu
+
+$CUDA_HOME/bin/nvcc -ptx --gpu-architecture=sm_86 -o target/ptx/dendritic_reservoir.ptx prism-gpu/src/kernels/dendritic_reservoir.cu
+
+$CUDA_HOME/bin/nvcc -ptx --gpu-architecture=sm_86 -o target/ptx/ensemble_exchange.ptx prism-gpu/src/kernels/ensemble_exchange.cu
+
+$CUDA_HOME/bin/nvcc -ptx --gpu-architecture=sm_86 -o target/ptx/floyd_warshall.ptx prism-gpu/src/kernels/floyd_warshall.cu
+
+$CUDA_HOME/bin/nvcc -ptx --gpu-architecture=sm_86 -o target/ptx/gnn_inference.ptx prism-gpu/src/kernels/gnn_inference.cu
+
+$CUDA_HOME/bin/nvcc -ptx --gpu-architecture=sm_86 -o target/ptx/molecular_dynamics.ptx prism-gpu/src/kernels/molecular_dynamics.cu
+
+$CUDA_HOME/bin/nvcc -ptx --gpu-architecture=sm_86 -o target/ptx/pimc.ptx prism-gpu/src/kernels/pimc.cu
+
+$CUDA_HOME/bin/nvcc -ptx --gpu-architecture=sm_86 -o target/ptx/quantum.ptx prism-gpu/src/kernels/quantum.cu
+
+$CUDA_HOME/bin/nvcc -ptx --gpu-architecture=sm_86 -o target/ptx/tda.ptx prism-gpu/src/kernels/tda.cu
+
+$CUDA_HOME/bin/nvcc -ptx --gpu-architecture=sm_86 -o target/ptx/thermodynamic.ptx prism-gpu/src/kernels/thermodynamic.cu
+
+$CUDA_HOME/bin/nvcc -ptx --gpu-architecture=sm_86 -o target/ptx/transfer_entropy.ptx prism-gpu/src/kernels/transfer_entropy.cu
+
+# 4. BUILD RUST
+cargo build --release --features cuda
+
+# 5. TEST
+./target/release/prism-cli -i benchmarks/dimacs/DSJC125.5.col --config configs/EXTREME_MAX.toml --attempts 1

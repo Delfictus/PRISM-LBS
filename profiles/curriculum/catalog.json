@@ -1,0 +1,195 @@
+{
+  "version": "1.0",
+  "entries": [
+    {
+      "profile": "Easy",
+      "metadata": {
+        "graph_class": "random_sparse",
+        "training_episodes": 1000,
+        "average_reward": 0.82,
+        "convergence_epoch": 450,
+        "timestamp": "2025-01-15T10:30:00Z",
+        "hyperparameters": {
+          "alpha": 0.1,
+          "gamma": 0.95,
+          "epsilon": 0.3
+        }
+      },
+      "q_table": {
+        "12345": {
+          "0": 0.5,
+          "1": 0.3,
+          "2": 0.45
+        },
+        "67890": {
+          "0": 0.7,
+          "2": 0.4,
+          "5": 0.6
+        },
+        "11111": {
+          "1": 0.35,
+          "3": 0.55,
+          "7": 0.48
+        }
+      }
+    },
+    {
+      "profile": "Medium",
+      "metadata": {
+        "graph_class": "DSJC125.1",
+        "training_episodes": 5000,
+        "average_reward": 0.65,
+        "convergence_epoch": 2300,
+        "timestamp": "2025-01-16T14:20:00Z",
+        "hyperparameters": {
+          "alpha": 0.08,
+          "gamma": 0.97,
+          "epsilon": 0.25
+        }
+      },
+      "q_table": {
+        "22222": {
+          "0": 0.62,
+          "1": 0.58,
+          "4": 0.71
+        },
+        "33333": {
+          "2": 0.53,
+          "3": 0.66,
+          "6": 0.49
+        },
+        "44444": {
+          "0": 0.68,
+          "5": 0.55,
+          "8": 0.61
+        },
+        "55555": {
+          "1": 0.47,
+          "4": 0.73,
+          "7": 0.59
+        }
+      }
+    },
+    {
+      "profile": "Hard",
+      "metadata": {
+        "graph_class": "DSJC250.5",
+        "training_episodes": 10000,
+        "average_reward": 0.48,
+        "convergence_epoch": 5800,
+        "timestamp": "2025-01-17T09:15:00Z",
+        "hyperparameters": {
+          "alpha": 0.05,
+          "gamma": 0.98,
+          "epsilon": 0.2
+        }
+      },
+      "q_table": {
+        "66666": {
+          "0": 0.44,
+          "2": 0.51,
+          "3": 0.38
+        },
+        "77777": {
+          "1": 0.56,
+          "4": 0.42,
+          "9": 0.49
+        },
+        "88888": {
+          "0": 0.47,
+          "5": 0.53,
+          "6": 0.41
+        },
+        "99999": {
+          "2": 0.39,
+          "7": 0.58,
+          "8": 0.46
+        },
+        "10101": {
+          "1": 0.52,
+          "3": 0.48,
+          "10": 0.44
+        }
+      }
+    },
+    {
+      "profile": "VeryHard",
+      "metadata": {
+        "graph_class": "flat1000_76_0",
+        "training_episodes": 20000,
+        "average_reward": 0.31,
+        "convergence_epoch": 12500,
+        "timestamp": "2025-01-18T16:45:00Z",
+        "hyperparameters": {
+          "alpha": 0.03,
+          "gamma": 0.99,
+          "epsilon": 0.15
+        }
+      },
+      "q_table": {
+        "20202": {
+          "0": 0.28,
+          "1": 0.35,
+          "4": 0.31
+        },
+        "30303": {
+          "2": 0.33,
+          "5": 0.29,
+          "8": 0.36
+        },
+        "40404": {
+          "0": 0.32,
+          "3": 0.27,
+          "7": 0.34
+        },
+        "50505": {
+          "1": 0.30,
+          "6": 0.38,
+          "9": 0.26
+        },
+        "60606": {
+          "2": 0.29,
+          "4": 0.37,
+          "11": 0.31
+        },
+        "70707": {
+          "0": 0.35,
+          "8": 0.28,
+          "10": 0.33
+        }
+      }
+    },
+    {
+      "profile": "Medium",
+      "metadata": {
+        "graph_class": "structured_bipartite",
+        "training_episodes": 3000,
+        "average_reward": 0.71,
+        "convergence_epoch": 1450,
+        "timestamp": "2025-01-19T11:00:00Z",
+        "hyperparameters": {
+          "alpha": 0.09,
+          "gamma": 0.96,
+          "epsilon": 0.22
+        }
+      },
+      "q_table": {
+        "80808": {
+          "0": 0.68,
+          "2": 0.74,
+          "5": 0.65
+        },
+        "90909": {
+          "1": 0.72,
+          "4": 0.69,
+          "6": 0.77
+        },
+        "10011": {
+          "0": 0.71,
+          "3": 0.66,
+          "8": 0.73
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,202 @@
+═══════════════════════════════════════════════════════════════════════════
+COMPLETE SOURCE FILE MANIFEST: target/release/prism-cli Binary
+═══════════════════════════════════════════════════════════════════════════
+Binary: target/release/prism-cli (6.5M)
+Built: Nov 24 10:52 (2025-11-24T10:52)
+Build Command: cargo build --release --features cuda
+═══════════════════════════════════════════════════════════════════════════
+
+WORKSPACE CRATES COMPILED INTO BINARY
+======================================
+
+1. prism-cli (Main Binary Entry Point)
+   prism-cli/src/lib.rs
+   prism-cli/src/main.rs                    ← ENTRY POINT (fn main)
+   prism-cli/src/metrics_server.rs
+
+2. prism-core (Core Types & Traits)
+   prism-core/src/dimacs.rs                 ← DIMACS graph file parser
+   prism-core/src/domain/biomolecular.rs
+   prism-core/src/domain/gnn.rs
+   prism-core/src/domain/materials.rs
+   prism-core/src/domain/mod.rs
+   prism-core/src/domain/protein.rs
+   prism-core/src/errors.rs
+   prism-core/src/lib.rs
+   prism-core/src/traits.rs                 ← Phase, PhaseController, etc.
+   prism-core/src/types.rs                  ← Coloring, Graph, etc.
+
+3. prism-fluxnet (RL Controller)
+   prism-fluxnet/src/bin/train.rs           (separate binary, not in prism-cli)
+   prism-fluxnet/src/core/actions.rs        ← RL action space
+   prism-fluxnet/src/core/controller.rs     ← FluxNetController
+   prism-fluxnet/src/core/mod.rs
+   prism-fluxnet/src/core/state.rs          ← RL state representation
+   prism-fluxnet/src/curriculum.rs
+   prism-fluxnet/src/lib.rs
+
+4. prism-gnn (Graph Neural Networks)
+   prism-gnn/src/inference.rs               ← GNN inference
+   prism-gnn/src/layers.rs                  ← GAT, GCN layers
+   prism-gnn/src/lib.rs
+   prism-gnn/src/models.rs
+   prism-gnn/src/training.rs
+
+5. prism-gpu (GPU/CUDA Interface)
+   prism-gpu/src/active_inference.rs        ← Phase 1 GPU wrapper
+   prism-gpu/src/cma.rs
+   prism-gpu/src/cma_es.rs
+   prism-gpu/src/context.rs                 ← GPU context, PTX loading
+   prism-gpu/src/dendritic_reservoir.rs     ← Phase 0 GPU wrapper
+   prism-gpu/src/floyd_warshall.rs          ← Phase 4 GPU wrapper
+   prism-gpu/src/lib.rs
+   prism-gpu/src/molecular.rs               ← MEC GPU wrapper
+   prism-gpu/src/multi_gpu.rs
+   prism-gpu/src/pimc.rs                    ← Phase 3B GPU wrapper
+   prism-gpu/src/quantum.rs                 ← Phase 3 GPU wrapper ⚠️
+   prism-gpu/src/tda.rs                     ← Phase 6 GPU wrapper
+   prism-gpu/src/thermodynamic.rs           ← Phase 2 GPU wrapper ⚠️
+   prism-gpu/src/transfer_entropy.rs
+
+6. prism-mec (Molecular Emergent Computing)
+   prism-mec/src/emergent.rs
+   prism-mec/src/lib.rs
+   prism-mec/src/membrane.rs
+   prism-mec/src/molecular.rs
+   prism-mec/src/reactions.rs
+
+7. prism-ontology (Semantic Grounding)
+   prism-ontology/src/grounding.rs
+   prism-ontology/src/knowledge_graph.rs
+   prism-ontology/src/lib.rs
+   prism-ontology/src/reasoning.rs
+   prism-ontology/src/semantic.rs
+
+8. prism-phases (Phase Controllers)
+   prism-phases/src/conflict_repair.rs      ← Greedy conflict repair algorithm
+   prism-phases/src/lib.rs
+   prism-phases/src/phase0/controller.rs    ← Phase 0 controller
+   prism-phases/src/phase0/ensemble.rs
+   prism-phases/src/phase0/mod.rs
+   prism-phases/src/phase0/warmstart.rs     ← Warmstart algorithms
+   prism-phases/src/phase1_active_inference.rs  ← Phase 1 controller
+   prism-phases/src/phase2_thermodynamic.rs     ← Phase 2 controller ⚠️
+   prism-phases/src/phase3_quantum.rs           ← Phase 3 controller ⚠️
+   prism-phases/src/phase4_geodesic.rs          ← Phase 4 controller
+   prism-phases/src/phase6_tda.rs               ← Phase 6 controller
+   prism-phases/src/phase7_ensemble.rs          ← Phase 7 + Memetic
+
+9. prism-pipeline (Orchestrator)
+   prism-pipeline/src/adp.rs                ← Adaptive dynamic programming
+   prism-pipeline/src/config/mod.rs         ← TOML config parsing
+   prism-pipeline/src/lib.rs
+   prism-pipeline/src/orchestrator/mod.rs   ← Pipeline orchestrator
+   prism-pipeline/src/profiler.rs
+   prism-pipeline/src/telemetry/mod.rs      ← Telemetry writer
+   prism-pipeline/src/telemetry/prometheus.rs
+
+CRITICAL FILES (Interact with μ=0.55 GPU Kernels)
+==================================================
+
+⚠️ prism-gpu/src/thermodynamic.rs
+   - Loads target/ptx/thermodynamic.ptx (contains μ=0.55)
+   - Launches parallel_tempering_step kernel
+   - No μ parameter in Rust code (hardcoded in PTX)
+
+⚠️ prism-gpu/src/quantum.rs
+   - Loads target/ptx/quantum.ptx (contains μ=0.55)
+   - Launches quantum_evolution_step kernel
+   - No μ parameter in Rust code (hardcoded in PTX)
+
+⚠️ prism-phases/src/phase2_thermodynamic.rs
+   - Calls prism_gpu::thermodynamic::run()
+   - Reads config: cooling_rate, steps_per_temp, etc.
+   - Does NOT control μ (kernel parameter)
+
+⚠️ prism-phases/src/phase3_quantum.rs
+   - Calls prism_gpu::quantum::run_complex_evolution()
+   - Reads config: coupling_strength, evolution_time, max_colors, etc.
+   - Does NOT control μ (kernel parameter)
+
+TOTAL SOURCE FILES
+==================
+Rust source files (.rs): 64 files
+Lines of Rust code: ~15,000+ lines (estimated)
+
+EXTERNAL DEPENDENCIES (Compiled In)
+====================================
+- anyhow: Error handling
+- clap: CLI argument parsing
+- petgraph: Graph data structures
+- serde/serde_json/toml: Serialization & config
+- tokio: Async runtime (for metrics server)
+- prometheus: Metrics collection
+- cudarc: CUDA FFI bindings (Rust → CUDA)
+- env_logger/log: Logging infrastructure
+- chrono: Timestamps
+- axum: HTTP server for metrics
+
+COMPILATION PROCESS
+===================
+1. Rust compiler reads all 64 .rs files
+2. Resolves dependencies (external crates from crates.io)
+3. Links cudarc for GPU FFI
+4. Compiles to native x86_64 binary
+5. Embeds PTX loading paths (hardcoded to target/ptx/)
+6. Outputs: target/release/prism-cli (6.5M executable)
+
+KEY BEHAVIORS DETERMINED BY SOURCE FILES
+=========================================
+
+1. PTX LOADING (prism-gpu/src/context.rs):
+   - Hardcoded path: target/ptx/
+   - Loads: thermodynamic.ptx, quantum.ptx, etc.
+   - No recompilation of .cu files at runtime
+
+2. CONFIG PARSING (prism-pipeline/src/config/mod.rs):
+   - Parses TOML files
+   - Deserializes into Rust structs
+   - Phase parameters (NOT including μ)
+
+3. MAIN EXECUTION FLOW (prism-cli/src/main.rs):
+   main()
+   → parse CLI args (--input, --config, --gpu, --attempts)
+   → load graph (DIMACS parser)
+   → load config (TOML parser)
+   → initialize orchestrator
+   → run multi-attempt loop
+   → execute phases
+   → run memetic algorithm
+   → output results
+
+4. GPU KERNEL INVOCATION (prism-gpu/src/*.rs):
+   - Uses cudarc to launch CUDA kernels
+   - Passes parameters: graph data, temperatures, etc.
+   - Does NOT pass μ (compiled into PTX)
+
+═══════════════════════════════════════════════════════════════════════════
+SUMMARY: HOW μ=0.55 IS BAKED INTO THE BINARY
+═══════════════════════════════════════════════════════════════════════════
+
+The prism-cli binary contains:
+✓ All Rust logic (64 source files, ~15K lines)
+✓ PTX loading code (hardcoded paths to target/ptx/)
+✓ Config parsing (reads TOML, but NOT μ)
+✓ Phase orchestration (calls GPU wrappers)
+
+The binary does NOT contain:
+✗ CUDA kernel code (stored separately in .ptx files)
+✗ Chemical potential μ (hardcoded in .ptx, not configurable)
+
+Runtime behavior:
+1. prism-cli loads target/ptx/thermodynamic.ptx (μ=0.55 compiled in)
+2. prism-cli loads target/ptx/quantum.ptx (μ=0.55 compiled in)
+3. Rust code launches kernels with graph data
+4. GPU executes kernels with μ=0.55 (no way to change without recompiling PTX)
+
+To change μ, you must:
+1. Edit prism-gpu/src/kernels/thermodynamic.cu:150
+2. Edit prism-gpu/src/kernels/quantum.cu:431
+3. Recompile PTX: nvcc ... → target/ptx/*.ptx
+4. Rebuild binary: cargo build --release --features cuda
+═══════════════════════════════════════════════════════════════════════════
